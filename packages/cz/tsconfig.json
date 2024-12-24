@@ -4,7 +4,7 @@
     "rootDirs": [
       "./src"
     ] /* Allow multiple folders to be treated as one when resolving modules. */,
-    "outDir": "lib" /* Specify an output folder for all emitted files. */
+    "outDir": "dist" /* Specify an output folder for all emitted files. */
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules/**"]
