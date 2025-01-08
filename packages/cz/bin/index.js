@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-console.log("bin 文件主入口");
+require("../dist/cjs.js");

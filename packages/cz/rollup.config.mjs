@@ -10,21 +10,22 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: "dist/esm.js",
-      format: "esm",
-      sourcemap: true,
-    },
-    {
       file: "dist/cjs.js",
       format: "cjs",
       sourcemap: true,
     },
-    {
-      file: "dist/umd.js",
-      name: "Sunny",
-      format: "umd",
-      sourcemap: true,
-    },
+    // 注释掉其他两种打包方式吧，暂时用不到，因为只运行在 node 端
+    // {
+    //   file: "dist/esm.js",
+    //   format: "esm",
+    //   sourcemap: true,
+    // },
+    // {
+    //   file: "dist/umd.js",
+    //   name: "Sunny",
+    //   format: "umd",
+    //   sourcemap: true,
+    // },
   ],
   plugins: [
     typescript({
@@ -38,7 +39,9 @@ export default {
       modulesOnly: true,
       preferredBuiltins: false,
     }),
-    commonjs(),
+    commonjs({
+      transformMixedEsModules: true,
+    }),
     json(),
     babel({
       babelrc: false,
