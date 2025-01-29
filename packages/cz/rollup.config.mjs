@@ -36,8 +36,11 @@ export default {
     }),
     resolve({
       extensions: [".js", ".ts", ".json"],
-      modulesOnly: true,
-      preferredBuiltins: false,
+      // 只解析 ES6 模块（即使用 import/export 语法的模块），而忽略 CommonJS 模块（使用 require/module.exports 的模块）。
+      // 所以这里将这个配置改为 false
+      modulesOnly: false,
+      preferBuiltins: true, // 改为 true，优先使用 Node.js 内置模块
+      moduleDirectories: ["node_modules"], // 明确指定查找模块的目录
     }),
     commonjs({
       transformMixedEsModules: true,
@@ -50,5 +53,17 @@ export default {
       exclude: "node_modules/**",
     }),
     cleandir("./dist"),
+  ],
+  // 只保留 Node.js 内置模块作为外部依赖
+  external: [
+    "fs",
+    "path",
+    "child_process",
+    "events",
+    "util",
+    "os",
+    "stream",
+    "readline",
+    /^node:/, // 添加这一行，排除所有 node: 协议的内置模块
   ],
 };
