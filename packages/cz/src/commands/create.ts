@@ -3,8 +3,30 @@ import path from "path";
 import inquirer from "inquirer";
 import download from "download-git-repo";
 import { promisify } from "util";
+import dns from "dns";
 
 const downloadTemplate = promisify(download);
+
+const downloadWithRetry = async (
+  template: string,
+  target: string,
+  maxRetries = 3
+) => {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await downloadTemplate(template, target, {
+        clone: true,
+        headers: { "User-Agent": "node" }, // 添加 User-Agent 头
+      });
+      return true;
+    } catch (err) {
+      if (i === maxRetries - 1) throw err;
+      console.log(`\n⚠️ 下载失败，正在进行第 ${i + 1} 次重试...`);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+  return false;
+};
 
 interface ProjectAnswers {
   framework: string;
@@ -70,17 +92,23 @@ export const createCommand = (program: any) => {
 
       // 下载模板
       try {
-        // 假设你的模板都放在 templates 目录下
-        const template = `sunny/project-templates/templates/${answers.framework}${
-          answers.typescript ? "-ts" : ""
-        }`;
-        // 或者使用完整 URL
-        // const template = `direct:https://github.com/sunny/project-templates.git#main/templates/${answers.framework}`;
-        
-        await downloadTemplate(template, projectPath, { clone: true });
-        console.log("✅ 模板下载完成");
+        // 使用 HTTPS URL 而不是 SSH
+        const template = `direct:https://github.com/Mooo-star/cz/tree/main/packages/cz/src/templates/${
+          answers.framework
+        }${answers.typescript ? "-ts" : ""}`;
+
+        const success = await downloadWithRetry(template, projectPath);
+        if (success) {
+          console.log("✅ 模板下载完成");
+        } else {
+          throw new Error("下载失败");
+        }
       } catch (err) {
         console.error("❌ 模板下载失败:", err);
+        console.log("\n💡 建议：");
+        console.log("1. 检查网络连接");
+        console.log("2. 尝试使用代理");
+        console.log("3. 确认仓库地址是否正确");
         process.exit(1);
       }
 
