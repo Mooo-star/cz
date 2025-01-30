@@ -1,23 +1,17 @@
 import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
-import download from "download-git-repo";
-import { promisify } from "util";
-import dns from "dns";
+import degit from "degit";
 
-const downloadTemplate = promisify(download);
-
-const downloadWithRetry = async (
-  template: string,
-  target: string,
-  maxRetries = 3
-) => {
+const downloadWithRetry = async (template: string, target: string, maxRetries = 3) => {
   for (let i = 0; i < maxRetries; i++) {
     try {
-      await downloadTemplate(template, target, {
-        clone: true,
-        headers: { "User-Agent": "node" }, // 添加 User-Agent 头
+      const emitter = degit(template, {
+        cache: false,
+        force: true,
+        verbose: true,
       });
+      await emitter.clone(target);
       return true;
     } catch (err) {
       if (i === maxRetries - 1) throw err;
@@ -92,11 +86,11 @@ export const createCommand = (program: any) => {
 
       // 下载模板
       try {
-        // 使用 HTTPS URL 而不是 SSH
-        const template = `direct:https://github.com/Mooo-star/cz/tree/main/packages/cz/src/templates/${
+        // degit 使用不同的 URL 格式
+        const template = `Mooo-star/cz#main/packages/cz/src/templates/${
           answers.framework
         }${answers.typescript ? "-ts" : ""}`;
-
+        
         const success = await downloadWithRetry(template, projectPath);
         if (success) {
           console.log("✅ 模板下载完成");

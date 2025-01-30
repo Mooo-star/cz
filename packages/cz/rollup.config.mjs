@@ -14,18 +14,6 @@ export default {
       format: "cjs",
       sourcemap: true,
     },
-    // 注释掉其他两种打包方式吧，暂时用不到，因为只运行在 node 端
-    // {
-    //   file: "dist/esm.js",
-    //   format: "esm",
-    //   sourcemap: true,
-    // },
-    // {
-    //   file: "dist/umd.js",
-    //   name: "Sunny",
-    //   format: "umd",
-    //   sourcemap: true,
-    // },
   ],
   plugins: [
     typescript({
@@ -35,12 +23,11 @@ export default {
       outputToFilesystem: true, // 显式设置为 true，以便在构建过程中输出.d.ts 文件  ps: 让控制台不要报警告了
     }),
     resolve({
+      preferBuiltins: true,
       extensions: [".js", ".ts", ".json"],
-      // 只解析 ES6 模块（即使用 import/export 语法的模块），而忽略 CommonJS 模块（使用 require/module.exports 的模块）。
-      // 所以这里将这个配置改为 false
-      modulesOnly: false,
-      preferBuiltins: true, // 改为 true，优先使用 Node.js 内置模块
-      moduleDirectories: ["node_modules"], // 明确指定查找模块的目录
+      moduleDirectories: ["node_modules"],
+      mainFields: ["module", "main"], // 添加这行
+      resolveOnly: [/^(?!electron|readable-stream|glob)/], // 添加这行
     }),
     commonjs({
       transformMixedEsModules: true,
@@ -51,6 +38,7 @@ export default {
       presets: [["@babel/preset-env", { modules: false, loose: true }]],
       plugins: [["@babel/plugin-proposal-class-properties", { loose: true }]],
       exclude: "node_modules/**",
+      babelHelpers: "bundled", // 显式声明这个选项
     }),
     cleandir("./dist"),
   ],
