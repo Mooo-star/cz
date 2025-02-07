@@ -26,8 +26,7 @@ export default {
       preferBuiltins: true,
       extensions: [".js", ".ts", ".json"],
       moduleDirectories: ["node_modules"],
-      mainFields: ["module", "main"], // 添加这行
-      resolveOnly: [/^(?!electron|readable-stream|glob)/], // 添加这行
+      mainFields: ["module", "main"],
     }),
     commonjs({
       transformMixedEsModules: true,
@@ -52,6 +51,11 @@ export default {
     "os",
     "stream",
     "readline",
-    /^node:/, // 添加这一行，排除所有 node: 协议的内置模块
+    "https",
+    "http",
+    "url",
+    "zlib",
+    "degit",
+    /^node:/, // 排除所有 node: 协议的内置模块
   ],
 };

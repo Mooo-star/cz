@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pnpx rollup -c rollup.config.mjs",
-    "dev": "nodemon --watch ./src/index.ts --exec pnpm build"
+    "dev": "nodemon --watch src --ext ts,js,json --exec pnpm build"
   },
   "author": "",
   "license": "ISC",

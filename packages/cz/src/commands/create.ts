@@ -11,7 +11,13 @@ const downloadWithRetry = async (template: string, target: string, maxRetries = 
         force: true,
         verbose: true,
       });
-      await emitter.clone(target);
+      emitter.on("info", (info) => {
+        console.log("emitter info", info.message);
+      });
+      await emitter.clone(target).then((res) => {
+        console.log("-------- clone down -------------");
+      });
+
       return true;
     } catch (err) {
       if (i === maxRetries - 1) throw err;
@@ -87,12 +93,14 @@ export const createCommand = (program: any) => {
       // 下载模板
       try {
         // degit 使用不同的 URL 格式
-        const template = `Mooo-star/cz#main/packages/cz/src/templates/${
-          answers.framework
-        }${answers.typescript ? "-ts" : ""}`;
-        
-        const success = await downloadWithRetry(template, projectPath);
+        const template = `Mooo-star/cz/packages/cz/src/templates/${answers.framework
+          }${answers.typescript ? "-ts" : ""}`;
+        const success = await downloadWithRetry(
+          template,
+          projectPath
+        );
         if (success) {
+          console.log("sccess", success);
           console.log("✅ 模板下载完成");
         } else {
           throw new Error("下载失败");
@@ -125,3 +133,5 @@ export const createCommand = (program: any) => {
       `);
     });
 };
+
+
