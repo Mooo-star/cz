@@ -3,7 +3,9 @@
 # dependencies
 **/node_modules
 
-
+# rollup cache
+**/.rollup.cache/*
+.rollup.cache
 
 # dist 目录下的打包
 dist*
