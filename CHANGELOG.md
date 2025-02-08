@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/Mooo-star/cz/compare/v1.1.0...v1.2.0) (2025-02-08)
+
+
+### Features
+
+* **发版:** 再次尝试发版 ([50ac09f](https://github.com/Mooo-star/cz/commit/50ac09f1c8098db05b6b42375f631984b963ab1b))
+* **发版:** 再次尝试发版 ([354f85d](https://github.com/Mooo-star/cz/commit/354f85d4d131eff3196ec712a3448eab098936bb))
+* **发版:** 再次尝试发版 ([951df4d](https://github.com/Mooo-star/cz/commit/951df4d60b3d42cf194bb9d45bd5cd4b8f2eea0c))
+
 # [1.1.0](https://github.com/Mooo-star/cz/compare/v1.0.0...v1.1.0) (2025-02-08)
 
 
