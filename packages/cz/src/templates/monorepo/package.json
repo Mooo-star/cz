@@ -1,0 +1,49 @@
+{
+  "name": "one-webapp",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "react": "pnpm run dev --filter react-webapp",
+    "react:build": "pnpm -r --filter react-webapp run build",
+    "react:clean": "pnpm -r --filter react-webapp run clean",
+    "build": "turbo build",
+    "clean": "pnpx npkill",
+    "dev": "turbo dev",
+    "format": "prettier --cache --write .",
+    "lint": "max lint \"apps/*/src/**/*.{js,jsx,tsx,ts,less}\"",
+    "prepare": "husky install"
+  },
+  "resolutions": {
+    "zhihu-hybrid": "2.3.1"
+  },
+  "dependencies": {
+    "@umijs/max": "^4.3.23",
+    "ahooks": "^3.8.1",
+    "classnames": "^2.5.1",
+    "dayjs": "^1.11.13",
+    "lodash-es": "^4.17.21",
+    "query-string": "^9.1.0",
+    "zustand": "5.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
+    "@types/lodash-es": "^4.17.12",
+    "eslint": "^8.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.0.3",
+    "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-packagejson": "^2.4.5",
+    "turbo": "^2.1.2",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@9.15.5",
+  "engines": {
+    "node": ">=18"
+  }
+}

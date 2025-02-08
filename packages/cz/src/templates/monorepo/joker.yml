@@ -1,0 +1,23 @@
+artifacts:
+  offline:
+    mr_upload: true
+  static:
+    path: ./apps/react-webapp/dist
+  targets:
+    - static
+build:
+  - corepack disable
+  - npm i pnpm@9 -g
+  - pnpm config set store-dir .pnpm-store
+  - pnpm install --frozen-lockfile || pnpm install --frozen-lockfile
+  - pnpm react:build
+build_base_image: focal/node20.11.0
+cache:
+  directories:
+    - .pnpm-store
+    - node_modules
+    - .turbo
+test:
+  unittest:
+    - echo true
+version: '3.0'
