@@ -21,6 +21,7 @@ export default {
       declaration: true, // 生成 .d.ts 文件
       declarationDir: "dist/types", // 指定 .d.ts 文件输出目录
       outputToFilesystem: true, // 显式设置为 true，以便在构建过程中输出.d.ts 文件  ps: 让控制台不要报警告了
+      exclude: ["src/templates/**/*"], // 排除模板文件
     }),
     resolve({
       preferBuiltins: true,
@@ -57,5 +58,6 @@ export default {
     "zlib",
     "degit",
     /^node:/, // 排除所有 node: 协议的内置模块
+    /^.*\/templates\/.*/, // 排除 templates 目录下的所有文件
   ],
 };

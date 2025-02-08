@@ -2,6 +2,17 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import degit from "degit";
+import { execSync } from "child_process";
+
+const getGitUser = () => {
+  try {
+    const name = execSync('git config user.name').toString().trim();
+    const email = execSync('git config user.email').toString().trim();
+    return { name, email };
+  } catch (error) {
+    return { name: '', email: '' };
+  }
+};
 
 const downloadWithRetry = async (template: string, target: string, maxRetries = 3) => {
   for (let i = 0; i < maxRetries; i++) {
@@ -54,36 +65,8 @@ export const createCommand = (program: any) => {
           name: "framework",
           message: "选择框架:",
           choices: [
-            { name: "React", value: "react" },
-            { name: "Vue", value: "vue" },
-            { name: "Vanilla", value: "vanilla" },
-          ],
-        },
-        {
-          type: "confirm",
-          name: "typescript",
-          message: "是否使用 TypeScript?",
-          default: true,
-        },
-        {
-          type: "list",
-          name: "packageManager",
-          message: "选择包管理器:",
-          choices: [
-            { name: "npm", value: "npm" },
-            { name: "yarn", value: "yarn" },
-            { name: "pnpm", value: "pnpm" },
-          ],
-        },
-        {
-          type: "checkbox",
-          name: "features",
-          message: "选择项目特性:",
-          choices: [
-            { name: "ESLint", value: "eslint" },
-            { name: "Prettier", value: "prettier" },
-            { name: "Router", value: "router" },
-            { name: "状态管理", value: "state-management" },
+            { name: "monorepo", value: "monorepo" },
+            { name: "react", value: "react" },
           ],
         },
       ]);
@@ -94,7 +77,7 @@ export const createCommand = (program: any) => {
       try {
         // degit 使用不同的 URL 格式
         const template = `Mooo-star/cz/packages/cz/src/templates/${answers.framework
-          }${answers.typescript ? "-ts" : ""}`;
+          }`;
         const success = await downloadWithRetry(
           template,
           projectPath
@@ -121,15 +104,23 @@ export const createCommand = (program: any) => {
           fs.readFileSync(packageJsonPath, "utf-8")
         );
         packageJson.name = name;
+        const gitUser = getGitUser();
+        packageJson.author = gitUser.name ? `${gitUser.name} <${gitUser.email}>` : '';
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+      }
+
+      // 初始化 git
+      try {
+        execSync("git init", { cwd: projectPath });
+      } catch (err) {
+        console.error("❌ git 初始化失败:", err);
       }
 
       console.log(`
 ✨ 项目创建成功！使用以下命令开始开发：
 
   cd ${name}
-  ${answers.packageManager} install
-  ${answers.packageManager === "npm" ? "npm run" : answers.packageManager} dev
+  pnpm install
       `);
     });
 };
