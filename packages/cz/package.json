@@ -1,7 +1,10 @@
 {
   "name": "@sunny_000001/cz",
   "version": "1.0.0",
-  "description": "",
+  "description": "A CLI tool for project scaffolding",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "index.js",
   "bin": {
     "cz": "bin/index.js"
