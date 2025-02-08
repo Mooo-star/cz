@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Mooo-star/cz/compare/v1.0.0...v1.1.0) (2025-02-08)
+
+
+### Features
+
+* **发版:** 发版 ([251fe02](https://github.com/Mooo-star/cz/commit/251fe026d087307510a0e329c643e13bfabf0481))
+
 # 1.0.0 (2025-02-08)
 
 
