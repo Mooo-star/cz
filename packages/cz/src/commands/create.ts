@@ -22,12 +22,8 @@ const downloadWithRetry = async (template: string, target: string, maxRetries = 
         force: true,
         verbose: true,
       });
-      emitter.on("info", (info) => {
-        console.log("emitter info", info.message);
-      });
-      await emitter.clone(target).then((res) => {
-        console.log("-------- clone down -------------");
-      });
+
+      await emitter.clone(target)
 
       return true;
     } catch (err) {
