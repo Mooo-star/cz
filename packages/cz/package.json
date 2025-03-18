@@ -1,6 +1,6 @@
 {
   "name": "@sunny_000001/cz",
-  "version": "1.2.0",
+  "version": "1.1.0",
   "description": "A CLI tool for project scaffolding",
   "publishConfig": {
     "access": "public"
@@ -35,6 +35,8 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "axios": "^1.8.3",
+    "chalk": "^5.4.1",
     "commander": "^13.0.0",
     "degit": "^2.8.4",
     "inquirer": "^12.3.3"
