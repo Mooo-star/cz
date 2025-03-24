@@ -6,7 +6,6 @@ import { execSync } from "child_process";
 
 const getGitUser = () => {
   try {
-    console.log("git config user.name");
     const name = execSync("git config user.name").toString().trim();
     const email = execSync("git config user.email").toString().trim();
     return { name, email };
