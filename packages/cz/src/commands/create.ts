@@ -1,15 +1,16 @@
-import fs from "fs";
-import path from "path";
-import inquirer from "inquirer";
-import degit from "degit";
 import { execSync } from "child_process";
+import { Command } from "commander";
+import degit from "degit";
+import fs from "fs";
+import inquirer from "inquirer";
+import path from "path";
 
 const getGitUser = () => {
   try {
     const name = execSync("git config user.name").toString().trim();
     const email = execSync("git config user.email").toString().trim();
     return { name, email };
-  } catch (error) {
+  } catch {
     return { name: "", email: "" };
   }
 };
@@ -46,7 +47,7 @@ interface ProjectAnswers {
   features: string[];
 }
 
-export const createCommand = (program: any) => {
+export const createCommand = (program: Command) => {
   program
     .command("create")
     .description("创建新项目")
@@ -76,8 +77,9 @@ export const createCommand = (program: any) => {
       // 下载模板
       try {
         // degit 使用不同的 URL 格式
-        const template = `Mooo-star/cz/packages/cz/src/templates/${answers.framework
-          }`;
+        const template = `Mooo-star/cz/packages/cz/src/templates/${
+          answers.framework
+        }`;
         const success = await downloadWithRetry(template, projectPath);
         if (success) {
           console.log("sccess", success);
