@@ -6,6 +6,7 @@ import { execSync } from "child_process";
 
 const getGitUser = () => {
   try {
+    console.log("git config user.name");
     const name = execSync("git config user.name").toString().trim();
     const email = execSync("git config user.email").toString().trim();
     return { name, email };
@@ -76,9 +77,8 @@ export const createCommand = (program: any) => {
       // 下载模板
       try {
         // degit 使用不同的 URL 格式
-        const template = `Mooo-star/cz/packages/cz/src/templates/${
-          answers.framework
-        }`;
+        const template = `Mooo-star/cz/packages/cz/src/templates/${answers.framework
+          }`;
         const success = await downloadWithRetry(template, projectPath);
         if (success) {
           console.log("sccess", success);
