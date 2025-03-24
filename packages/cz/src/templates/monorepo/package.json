@@ -7,15 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "react": "pnpm run dev --filter react-webapp",
-    "react:build": "pnpm -r --filter react-webapp run build",
-    "react:clean": "pnpm -r --filter react-webapp run clean",
     "build": "turbo build",
     "clean": "pnpx npkill",
     "dev": "turbo dev",
     "format": "prettier --cache --write .",
     "lint": "max lint \"apps/*/src/**/*.{js,jsx,tsx,ts,less}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "react": "pnpm run dev --filter react-webapp",
+    "react:build": "pnpm -r --filter react-webapp run build",
+    "react:clean": "pnpm -r --filter react-webapp run clean"
   },
   "resolutions": {
     "zhihu-hybrid": "2.3.1"

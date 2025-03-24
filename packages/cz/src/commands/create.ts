@@ -6,15 +6,19 @@ import { execSync } from "child_process";
 
 const getGitUser = () => {
   try {
-    const name = execSync('git config user.name').toString().trim();
-    const email = execSync('git config user.email').toString().trim();
+    const name = execSync("git config user.name").toString().trim();
+    const email = execSync("git config user.email").toString().trim();
     return { name, email };
   } catch (error) {
-    return { name: '', email: '' };
+    return { name: "", email: "" };
   }
 };
 
-const downloadWithRetry = async (template: string, target: string, maxRetries = 3) => {
+const downloadWithRetry = async (
+  template: string,
+  target: string,
+  maxRetries = 3,
+) => {
   for (let i = 0; i < maxRetries; i++) {
     try {
       const emitter = degit(template, {
@@ -23,7 +27,7 @@ const downloadWithRetry = async (template: string, target: string, maxRetries = 
         verbose: true,
       });
 
-      await emitter.clone(target)
+      await emitter.clone(target);
 
       return true;
     } catch (err) {
@@ -72,12 +76,10 @@ export const createCommand = (program: any) => {
       // 下载模板
       try {
         // degit 使用不同的 URL 格式
-        const template = `Mooo-star/cz/packages/cz/src/templates/${answers.framework
-          }`;
-        const success = await downloadWithRetry(
-          template,
-          projectPath
-        );
+        const template = `Mooo-star/cz/packages/cz/src/templates/${
+          answers.framework
+        }`;
+        const success = await downloadWithRetry(template, projectPath);
         if (success) {
           console.log("sccess", success);
           console.log("✅ 模板下载完成");
@@ -97,11 +99,13 @@ export const createCommand = (program: any) => {
       const packageJsonPath = path.join(projectPath, "package.json");
       if (fs.existsSync(packageJsonPath)) {
         const packageJson = JSON.parse(
-          fs.readFileSync(packageJsonPath, "utf-8")
+          fs.readFileSync(packageJsonPath, "utf-8"),
         );
         packageJson.name = name;
         const gitUser = getGitUser();
-        packageJson.author = gitUser.name ? `${gitUser.name} <${gitUser.email}>` : '';
+        packageJson.author = gitUser.name
+          ? `${gitUser.name} <${gitUser.email}>`
+          : "";
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
       }
 
@@ -120,5 +124,3 @@ export const createCommand = (program: any) => {
       `);
     });
 };
-
-

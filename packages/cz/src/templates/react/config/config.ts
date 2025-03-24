@@ -8,9 +8,7 @@ const env = process.env.NODE_ENV;
 
 export default defineConfig({
   mako: {},
-  scripts: [
-
-  ],
+  scripts: [],
   hash: true,
   theme,
   antd: {
@@ -19,8 +17,7 @@ export default defineConfig({
     },
   },
   // monorepoRedirect: {},
-  favicons: [
-  ],
+  favicons: [],
   proxy,
   mock: {},
   access: {},

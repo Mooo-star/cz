@@ -15,9 +15,7 @@ async function getInitialState() {
 
   // 2. 存用户信息 token ...
 
-  return {
-  };
+  return {};
 }
-
 
 export { getInitialState, request };
